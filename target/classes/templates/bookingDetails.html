@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booked Cars Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ff9100;;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .car-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .car-image {
+            width: 154px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .car-details {
+            flex: 1;
+        }
+
+        .car-details h2 {
+            margin: 0;
+        }
+
+        .car-details p {
+            margin: 5px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Booked Cars Details</h1>
+</header>
+
+<div class="container">
+    <h2 th:if="${bookedListSize==0}">There is no booking from your side. Book your ride fast..!!!!!</h2>
+    <div th:each="car : ${bookedCars}" class="car-card">
+        <img th:src="${car.car.carImageUrl}" alt="Car Image" class="car-image">
+        <div class="car-details">
+            <h2 th:text="${car.car.carName}"></h2>
+            <p>Booking ID: <span th:text="${car.bookedId}"></span></p>
+            <p>Start Date: <span th:text="${car.fromDate}"></span></p>
+            <p>End Date: <span th:text="${car.toDate}"></span></p>
+            <p>Total Amount: $<span th:text="${car.price}"></span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

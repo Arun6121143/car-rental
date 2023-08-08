@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Car Rental Feedback Form</title>
+  <link rel="stylesheet" type="text/css" href="styles.css"> <!-- Add the CSS file reference here -->
+  <style>
+        /* Basic styling for the table and its elements */
+#carDetailsTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+h1{
+text-align:center;
+}
+#carDetailsTable th, #carDetailsTable td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style for the "Give Feedback" button */
+.feedbackBtn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.feedbackBtn:hover {
+    background-color: #45a049;
+}
+
+/* Modal Styling */
+#feedbackModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.feedbackModal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.feedbackModal-content h2 {
+    margin-top: 0;
+}
+
+.feedbackModal-content textarea {
+    width: 100%;
+}
+img{
+    width: 261px;
+}
+
+.feedbackModal-content input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.feedbackModal-content input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Close button for the modal */
+.feedbackClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.feedbackClose:hover,
+.feedbackClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+<h1>Car Rental</h1>
+
+<!-- Car Details Table -->
+<table id="carDetailsTable">
+  <tr>
+    <th>Car Name</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th>Feedback</th>
+  </tr>
+  <!-- Example of car details, you can replace this with dynamic car data from the backend -->
+  <tr th:each="car:${carList}">
+    <td th:text="${car.carName}"></td>
+    <td th:text="${car.carRentalPrice}">$100/day</td>
+    <td><img th:src="${car.carImageUrl}" alt="Car Image"></td>
+    <td><button class="feedbackBtn" th:attr="data-carid=${car.carId}">Give Feedback</button></td>
+  </tr>
+  <!-- Add more car entries here dynamically based on the backend data -->
+</table>
+
+<!-- Modal for Feedback -->
+<div id="feedbackModal">
+  <div class="feedbackModal-content">
+    <span class="feedbackClose">&times;</span>
+    <h2>Feedback Form</h2>
+    <form id="feedbackForm" th:action="@{/feedbackCar}">
+      <input type="hidden" id="carId" name="carId" value="">
+      <label for="feedbackMessage">Feedback Message:</label><br>
+      <textarea id="feedbackMessage" name="feedback" rows="4" cols="50" required></textarea><br>
+      <input type="submit" value="Submit Feedback">
+    </form>
+  </div>
+</div>
+
+<script>
+        const feedbackModal = document.getElementById("feedbackModal");
+        const feedbackForm = document.getElementById("feedbackForm");
+        const carIdInput = document.getElementById("carId");
+
+        const feedbackButtons = document.querySelectorAll(".feedbackBtn");
+        feedbackButtons.forEach((feedbackBtn) => {
+            feedbackBtn.addEventListener("click", () => {
+                const carRow = feedbackBtn.parentElement.parentElement;
+                const carId = feedbackBtn.getAttribute("data-carid");
+
+                carIdInput.value = carId;
+                feedbackModal.style.display = "block";
+            });
+        });
+
+        feedbackForm.addEventListener("submit", (event) => {
+            feedbackModal.style.display = "none";
+        });
+        const feedbackClose = document.querySelector(".feedbackClose");
+        feedbackClose.addEventListener("click", () => {
+            feedbackModal.style.display = "none";
+        });
+
+        window.onclick = function(event) {
+            if (event.target === feedbackModal) {
+                feedbackModal.style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>

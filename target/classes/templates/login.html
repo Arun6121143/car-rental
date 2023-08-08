@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avis Car Rental - User Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff9100;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #ff9100;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+         .error-message{
+            text-align:center;
+            color:red;
+         }
+         .register-link,
+        .forgot-password-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .forgot-password-link {
+            color: #ff9100;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Morent Car Rental</h1>
+    <form th:action="@{/authenticateTheUser}" method="post" >
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <div th:if="${param.error}" class="error-message">
+            <i>email/password might be wrong try again..</i>
+        </div>
+        <input type="submit" value="Log In">
+    </form>
+    <a th:href="@{/registrationPage}" class="register-link">Don't have an account? Register here</a>
+    <a th:href="@{/forgotPasswordPage}" class="forgot-password-link">Forgot Password?</a>
+</div>
+</body>
+</html>

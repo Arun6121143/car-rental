@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avis Car Rental</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x:hidden;
+
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 13px 20px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    position: relative;
+    top: 0.3em;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+.hero {
+    background-image: url('hero.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff9100;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.car-listing {
+    margin-top: 30px;
+    position: relative;
+    left: 5em;
+    top: 2em;
+}
+
+.car-listing h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.car-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+h3{
+    position: relative;
+    bottom: 1.1em;
+}
+.car-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.car-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    top: 3.2em;
+}
+#location{
+    width: 25.5em;
+    height: 3em;
+}
+#from_date{
+    height: 2.7em;
+    width: 26em;
+}
+#to_date{
+    height: 2.7em;
+    width: 26em;
+}
+.fromdate{
+    margin-left: 0.5em;
+}
+.todate{
+    margin-left: 0.5em;
+}
+.dropdowns{
+    display: flex;
+    position: relative;
+    left: 5em;
+    max-width: 90vw;
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="#" class="logo">Morent</a>
+        <ul>
+            <li><a th:href="@{/loginPage}">Logout</a></li>
+            <li><a th:href="@{/feedback}">GiveFeedback</a></li>
+            <li><a th:href="@{/userProfile}">My Profile</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <form th:action="@{/save}" method="POST">
+        <section class="dropdowns">
+            <div class="locations">
+                <select  id="location" name="location" required>
+                    <option value="" disabled selected hidden>Choose a Location</option>
+                    <option th:each="location:${locationList}" th:text="${location.locationName}"></option>
+                </select>
+            </div>
+            <div class="fromdate">
+                <input type="date" id="from_date" placeholder="From Date" name="fromDate" required>
+            </div>
+            <div class="todate">
+                <input type="date" id="to_date" placeholder="To Date" name="toDate" required>
+            </div>
+        </section>
+        <section class="car-listing">
+            <div  class="car-cards">
+                <div th:each="car:${carList}" th:if="${car.bookedStatus==false}" class="car-card">
+                    <img th:src="${car.carImageUrl}" alt="Car 1">
+                    <h3 th:text="${car.carName}"></h3>
+                    <h4 th:text="${car.carRentalPrice}">/day</h4>
+                    <button type="submit" name="car"  th:value="${car.carName}" class="btn rent-button">Rent Now</button>
+                </div>
+            </div>
+        </section>
+    </form>
+</main>
+<footer>
+    <p>&copy; 2023 Morent Car Rental. All rights reserved.</p>
+</footer>
+</body>
+</html>

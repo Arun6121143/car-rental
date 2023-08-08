@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+      google.charts.load("current", {
+        "packages":["map"],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        "mapsApiKey": "AIzaSyAqFZkY7ZQmY2wbRWbQK86r4F7rh-WL57o"
+      });
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+            var location = "[[${location}]]";
+            var latitude = "[[${latitude}]]";
+            var longitude = "[[${longitude}]]";
+        var data = google.visualization.arrayToDataTable([
+          ['Lat', 'Long', 'Name'],
+          [parseFloat(latitude), parseFloat(longitude), location]
+        ]);
+
+        var map = new google.visualization.Map(document.getElementById('map_div'));
+        map.draw(data, {
+          showTooltip: true,
+          showInfoWindow: true
+        });
+      }
+
+    </script>
+    <style>
+        h1{
+           text-align:center;
+           color:green;
+           }
+           #map_div{
+               width: 400px;
+               height: 500px;
+               position: relative;
+               overflow: hidden;
+               left: 9em;
+               background-color: black;
+
+           }
+           table {
+            width: 55%;
+            border-collapse: collapse;
+            position: relative;
+            left: 10em;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .details{
+            display: flex;
+            margin-left: 1em;
+        }
+        .backbtn {
+      font-size: 20px;
+      position: relative;
+      top: 1em;
+      left: 3.5em;
+      color: #b71cca;
+      border: 1px solid black;
+      padding: 7px;
+      width: 50px;
+      background-color: black;
+    }
+    a{
+    text-decoration:none;
+    color:#b71cca;
+       }
+    </style>
+</head>
+<body>
+<div class="backbtn">
+    <a th:href="@{/home}">Back</a>
+</div>
+<h1>Booked Successfully</h1>
+<div class="details">
+<div id="map_div"> </div>
+<table>
+    <thead>
+    <tr>
+        <th>Car Name</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Booking ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${carName}"></td>
+        <td th:text="${fromDate}"></td>
+        <td th:text="${toDate}"></td>
+        <td th:text="${bookingId}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
